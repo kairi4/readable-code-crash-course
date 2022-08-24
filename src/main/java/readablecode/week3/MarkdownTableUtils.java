@@ -3,6 +3,8 @@ package readablecode.week3;
 import java.util.List;
 import java.util.Objects;
 
+import com.google.common.base.Strings;
+
 public class MarkdownTableUtils {
 	// TODO3 : find the code to be replace with the method used at TODO7
 	// refer OAOO principal
@@ -20,16 +22,15 @@ public class MarkdownTableUtils {
 	 * Returns the string of table which has empty rows as Markdown table syntax.
 	 * length of captions for separator cell and empty cell is same with their
 	 * header captions
-	 * 
-	 * 
+	 *
+	 *
 	 * @param headerRowCaptions the captions for header row
 	 * @param emptyRowCount     the number of empty rows.
 	 * @return the string of table which has empty rows as Markdown table
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public static String createEmptyTable(List<String> headerRowCaptions, int emptyRowCount) {
-		// validate args
 		Objects.requireNonNull(headerRowCaptions, "headerCaptions must not be null");
 		if (headerRowCaptions.isEmpty()) {
 			throw new IllegalArgumentException("headerCaptions must have one more elements");
@@ -38,6 +39,11 @@ public class MarkdownTableUtils {
 			throw new IllegalArgumentException("emptyRowCount must be greater than or equal to 1");
 		}
 
+		return createHeader(headerRowCaptions) + createEmptyRows(headerRowCaptions, emptyRowCount);
+
+	}
+
+	public static String createHeader(List<String> headerRowCaptions) {
 		StringBuilder markdownTable = new StringBuilder();
 		// create line for header row captions
 		for (String e : headerRowCaptions) {
@@ -53,9 +59,7 @@ public class MarkdownTableUtils {
 
 			// TODO2 : use com.google.common.base.Strings to replace the followings:13.4
 			// target code to replace with Strings begin
-			for (int i = 0; i < e.length(); i++) {
-				markdownTable.append("-");
-			}
+			markdownTable.append(Strings.repeat("-", e.length()));
 			// target code to replace with guava end
 			// how to find suitable method in framework
 			// 1.open {@link com.google.common.base.Strings} and check outline (control + o)
@@ -65,7 +69,11 @@ public class MarkdownTableUtils {
 		}
 		markdownTable.append("|");
 		markdownTable.append(System.lineSeparator());
+		return markdownTable.toString();
+	}
 
+	public static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
+		StringBuilder markdownTable = new StringBuilder();
 		// create lines for empty rows
 		for (int i = 0; i < emptyRowCount; i++) {
 			for (String e : headerRowCaptions) {
@@ -77,9 +85,7 @@ public class MarkdownTableUtils {
 			markdownTable.append("|");
 			markdownTable.append(System.lineSeparator());
 		}
-
 		return markdownTable.toString();
-
 	}
 
 }
