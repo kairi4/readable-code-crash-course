@@ -1,5 +1,6 @@
 package readablecode.week4;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,8 +27,8 @@ public class MarkdownTableUtils {
 	 * Returns the string of table which has empty rows as Markdown table syntax.
 	 * length of captions for separator cell and empty cell is same with their
 	 * header captions
-	 * 
-	 * 
+	 *
+	 *
 	 * @param headerRowCaptions the captions for header row
 	 * @param emptyRowCount     the number of empty rows.
 	 * @return the string of table which has empty rows as Markdown table
@@ -54,40 +55,25 @@ public class MarkdownTableUtils {
 	}
 
 	private static String createEmptyRows(List<String> headerRowCaptions, int emptyRowCount) {
-		StringBuilder markdownTable = new StringBuilder();
-		for (int i = 0; i < emptyRowCount; i++) {
-			for (String e : headerRowCaptions) {
-				markdownTable.append("|");
-				markdownTable.append(Strings.repeat(" ", e.length()));
-			}
-			markdownTable.append("|");
-			markdownTable.append(System.lineSeparator());
-		}
-		return markdownTable.toString();
+		List<String> separatorRow = createList(headerRowCaptions, " ");
+		return Strings.repeat(createRow(separatorRow), emptyRowCount);
 	}
 
 	private static String createHeaderRow(List<String> headerRowCaptions) {
-		StringBuilder markdownTable = new StringBuilder();
-		for (String e : headerRowCaptions) {
-			markdownTable.append("|");
-			markdownTable.append(e);
-		}
-		markdownTable.append("|");
-		markdownTable.append(System.lineSeparator());
-		return markdownTable.toString();
+		return createRow(headerRowCaptions);
 	}
 
 	private static String createSeparatorRow(List<String> headerRowCaptions) {
-		StringBuilder markdownTable = new StringBuilder();
-		for (String e : headerRowCaptions) {
-			markdownTable.append("|");
-			markdownTable.append(Strings.repeat("-", e.length()));
+		List<String> separatorRow = createList(headerRowCaptions, "-");
+		return createRow(separatorRow);
+	}
 
+	private static List<String> createList(List<String> captions, String repeatedChar) {
+		List<String> list = new ArrayList<String>();
+		for (String e : captions) {
+			list.add(Strings.repeat(repeatedChar, e.length()));
 		}
-		markdownTable.append("|");
-		markdownTable.append(System.lineSeparator());
-
-		return markdownTable.toString();
+		return list;
 	}
 
 	private static String createRow(List<String> captions) {
